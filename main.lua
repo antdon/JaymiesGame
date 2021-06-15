@@ -1,36 +1,49 @@
+require "Map"
+require "Player"
+require "util"
+
+
 function love.load()
-    FLOOR_PIECE_SIZE = 50
-    WINDOW_HEIGHT, WINDOW_WIDTH, WINDOW_FLAGS = love.window.getMode()
-    WINDOW_SAFETY_LENGTH = 500
-    FLOOR_HEIGHT = WINDOW_HEIGHT/2 + 100
-    
-
-end
-
-function drawFloorPiece(x)
-    for i = FLOOR_HEIGHT, WINDOW_HEIGHT + WINDOW_SAFETY_LENGTH, FLOOR_PIECE_SIZE do
-        love.graphics.rectangle("line", x, i, FLOOR_PIECE_SIZE, FLOOR_PIECE_SIZE)
-    end
-end
-
-function love.update()
+    floorStart = 0
+    playerSpeed = 60
 end
 
 function love.draw()
-    initialiseFloor()
-
+    Map:drawFloor(floorStart)
+    Player:drawPlayer()
+    for i = 10, 1, 1 do
+        love.graphics.translate(1, 0)
+        Player:drawPlayer()
+    end
 end
 
-function initialiseFloor()
-    for i = 0, WINDOW_WIDTH+WINDOW_SAFETY_LENGTH, FLOOR_PIECE_SIZE do
-        drawFloorPiece(i)
+
+function love.update(dt)
+    floorStart = floorStart - playerSpeed * dt
+    if player.jumping then
+        if player.y > player.jumpHeight then
+            player.y = player.y - player.jumpSpeed * dt
+            player.jumpSpeed = player.jumpSpeed - gravity * dt
+            if player.y > FLOOR_HEIGHT - FLOOR_PIECE_SIZE and falling then
+                player.y = FLOOR_HEIGHT - FLOOR_PIECE_SIZE
+                player.jumping = false
+                falling = false
+                player.jumpSpeed = player.initialJumpSpeed
+            end
+        else
+            player.jumpSpeed = 0
+            player.y = player.y + 1
+            falling = true
+        end
+
     end
+
 end
 
 function love.keypressed(key)
-    if key == "space" then
+    if key == "space" then 
+        player.jumping = true
     end
 end
-
 
 
