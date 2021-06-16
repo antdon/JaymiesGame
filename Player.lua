@@ -6,8 +6,10 @@ player = {}
 player.x = WINDOW_WIDTH/2 - 4*FLOOR_PIECE_SIZE 
 player.y = FLOOR_HEIGHT - FLOOR_PIECE_SIZE
 player.speed = 100
-player.jumpHeight = FLOOR_HEIGHT - FLOOR_PIECE_SIZE - 135
+player.jump = 135
+player.jumpHeight = FLOOR_HEIGHT - FLOOR_PIECE_SIZE  
 player.jumping = false
+player.doubleJumping = false
 player.initialJumpSpeed  = 350
 player.jumpSpeed = player.initialJumpSpeed
 

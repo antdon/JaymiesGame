@@ -6,6 +6,7 @@ require "util"
 function love.load()
     floorStart = 0
     playerSpeed = 60
+    jumpCount = 0
 end
 
 function love.draw()
@@ -28,9 +29,13 @@ function love.update(dt)
                 player.y = FLOOR_HEIGHT - FLOOR_PIECE_SIZE
                 player.jumping = false
                 falling = false
-                player.jumpSpeed = player.initialJumpSpeed
+                player.jumpHeight = FLOOR_HEIGHT - FLOOR_PIECE_SIZE  
+                jumpCount = 0
+                maxHeightReached = false
             end
+
         else
+            maxHeightReached = true
             player.jumpSpeed = 0
             player.y = player.y + 1
             falling = true
@@ -42,6 +47,17 @@ end
 
 function love.keypressed(key)
     if key == "space" then 
+        if jumpCount == 0 then
+            jumpCount = jumpCount + 1
+            player.jumpHeight = player.jumpHeight - player.jump
+            player.jumpSpeed = player.initialJumpSpeed
+
+        elseif jumpCount == 1  and maxHeightReached then
+            jumpCount = jumpCount + 1
+            player.jumpHeight = player.jumpHeight - player.jump
+            player.jumpSpeed = player.initialJumpSpeed
+        end
+
         player.jumping = true
     end
 end
