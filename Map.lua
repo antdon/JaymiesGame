@@ -11,8 +11,10 @@ function Map:drawFloorPiece(x)
 end
 
 function Map:drawFloor(floorStart)
-    for i = floorStart, WINDOW_WIDTH+WINDOW_SAFETY_LENGTH - floorStart, FLOOR_PIECE_SIZE do
-        Map:drawFloorPiece(i)
+    for i = floorStart, WINDOW_WIDTH + WINDOW_SAFETY_LENGTH - floorStart, FLOOR_PIECE_SIZE do
+        if i >= 0 - WINDOW_SAFETY_LENGTH then
+            Map:drawFloorPiece(i)
+        end
     end
 end
 
