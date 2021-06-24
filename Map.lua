@@ -1,4 +1,5 @@
 require "util"
+require "Obstacle"
 
 Map = {}
 Map.__index = Map
@@ -17,4 +18,5 @@ function Map:drawFloor(floorStart)
         end
     end
 end
+
 
