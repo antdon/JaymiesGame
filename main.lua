@@ -8,7 +8,7 @@ function love.load()
     floorStart = 0
     playerSpeed = 60
     jumpCount = 0
-    gravity = 520
+    gravity = 666
     obstacle = false
     obstacles = {}
 end
@@ -32,6 +32,7 @@ function love.draw()
 end
 
 function love.update(dt)
+    print(player.jumpHeight)
 --Floor movement logic
     floorStart = floorStart - playerSpeed * dt
 --Obstacle generation Logic
@@ -54,7 +55,7 @@ function love.update(dt)
         if love.keyboard.isDown("space") and jumpCount == 2 then
             gravity = 50
         else
-            gravity = 300
+            gravity = 666
         end
         if player.y > player.jumpHeight then
             player.y = player.y - player.jumpSpeed * dt
