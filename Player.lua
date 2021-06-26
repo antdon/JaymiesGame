@@ -12,6 +12,7 @@ player.jumping = false
 player.doubleJumping = false
 player.initialJumpSpeed  = 400
 player.jumpSpeed = player.initialJumpSpeed
+player.cancelled = false
 
 
 function Player:drawPlayer()

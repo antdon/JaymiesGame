@@ -18,7 +18,6 @@ function love.draw()
     Player:drawPlayer()
     for i, obst in ipairs(obstacles) do
         obst:drawObstacle()
-        print(obst.x)
     end
     for i = 10, 1, 1 do
         love.graphics.translate(1, 0)
@@ -32,7 +31,6 @@ function love.draw()
 end
 
 function love.update(dt)
-    print(player.jumpHeight)
 --Floor movement logic
     floorStart = floorStart - playerSpeed * dt
 --Obstacle generation Logic
@@ -57,6 +55,10 @@ function love.update(dt)
         else
             gravity = 666
         end
+        if player.cancelled then
+            print("cancelled")
+            gravity = 10000
+        end
         if player.y > player.jumpHeight then
             player.y = player.y - player.jumpSpeed * dt
             player.jumpSpeed = player.jumpSpeed - gravity * dt
@@ -67,6 +69,7 @@ function love.update(dt)
                 player.jumpHeight = FLOOR_HEIGHT - FLOOR_PIECE_SIZE  
                 jumpCount = 0
                 maxHeightReached = false
+                player.cancelled = false
             end
 
         else
@@ -75,7 +78,8 @@ function love.update(dt)
             player.y = player.y + 1
             falling = true
         end
-
+    else
+        player.cancelled = false
     end
 
 end
@@ -94,8 +98,12 @@ function love.keypressed(key)
         end
 
         player.jumping = true
+    elseif key == controls.down then
+        player.cancelled = true 
     end
+
 end
+
 
 function drawObstacles()
     for i,obst in ipairs(obstacles) do
