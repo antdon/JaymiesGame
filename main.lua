@@ -3,15 +3,15 @@ require "Player"
 require "util"
 require "Obstacle"
 
-
-function love.load()
-    floorStart = 0
-    playerSpeed = 60
-    jumpCount = 0
-    gravity = 666
-    obstacle = false
-    obstacles = {}
-end
+local floorStart = 0
+local playerSpeed = 60
+local jumpCount = 0
+local gravity = 666
+local obstacle = false
+local obstacles = {}
+local controls = {}
+controls.up = "up"
+controls.down = "down"
 
 function love.draw()
     Map:drawFloor(floorStart)
@@ -52,7 +52,7 @@ function love.update(dt)
     end
 --Jump Logic
     if player.jumping then
-        if love.keyboard.isDown("space") and jumpCount == 2 then
+        if love.keyboard.isDown(controls.up) and jumpCount == 2 then
             gravity = 50
         else
             gravity = 666
@@ -81,7 +81,7 @@ function love.update(dt)
 end
 
 function love.keypressed(key)
-    if key == "space" then 
+    if key == controls.up then 
         if jumpCount == 0 then
             jumpCount = jumpCount + 1
             player.jumpHeight = player.jumpHeight - player.jump
