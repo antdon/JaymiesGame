@@ -14,9 +14,12 @@ controls.up = "up"
 controls.down = "down"
 
 function love.draw()
+    love.graphics.setColor(1,1,1)
     Map:drawFloor(floorStart)
+    love.graphics.setColor(0,0.5,0.5)
     Player:drawPlayer()
     for i, obst in ipairs(obstacles) do
+        love.graphics.setColor(1,0,0)
         obst:drawObstacle()
     end
     for i = 10, 1, 1 do
