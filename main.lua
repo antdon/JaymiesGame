@@ -53,7 +53,6 @@ function love.update(dt)
             local obst = Obstacle:create(50, 50, WINDOW_WIDTH + 150)
             table.insert(obstacles, obst)
         end
-        print(obstaclable)
     end
 --Obstacle movement logic
     for i,obst in ipairs(obstacles) do
@@ -73,16 +72,15 @@ function love.update(dt)
             gravity = 666
         end
         if player.cancelled then
-            print("cancelled")
             gravity = 10000
         end
         if player.y > player.jumpHeight then
             player.y = player.y - player.jumpSpeed * dt
             player.jumpSpeed = player.jumpSpeed - gravity * dt
-            if player.y > FLOOR_HEIGHT - FLOOR_PIECE_SIZE and falling then
+            if player.y >= FLOOR_HEIGHT - FLOOR_PIECE_SIZE then 
                 player.y = FLOOR_HEIGHT - FLOOR_PIECE_SIZE
                 player.jumping = false
-                local falling = false
+                falling = false
                 player.jumpHeight = FLOOR_HEIGHT - FLOOR_PIECE_SIZE  
                 jumpCount = 0
                 maxHeightReached = false
@@ -93,7 +91,6 @@ function love.update(dt)
             maxHeightReached = true
             player.jumpSpeed = 0
             player.y = player.y + 1
-            falling = true
         end
     else
         player.cancelled = false
