@@ -9,12 +9,13 @@ function Obstacle:create(height, width, x)
     obst.height = height
     obst.width = width
     obst.x = x
+    obst.y = FLOOR_HEIGHT - obst.height
     return obst
 end
 
 
 function Obstacle:drawObstacle()
-    love.graphics.rectangle("fill", self.x, FLOOR_HEIGHT - self.height, self.height, self.width)
+    love.graphics.rectangle("fill", self.x, self.y, self.height, self.width)
 end
 
 function Obstacle:moveObstacle()

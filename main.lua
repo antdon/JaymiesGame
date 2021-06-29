@@ -2,6 +2,7 @@ require "Map"
 require "Player"
 require "util"
 require "Obstacle"
+require "collisions"
 
 local floorStart = 0
 local playerSpeed = 60
@@ -10,6 +11,7 @@ local gravity = 666
 local obstacle = false
 local obstacles = {}
 local controls = {}
+local hit = false
 controls.up = "up"
 controls.down = "down"
 
@@ -34,6 +36,11 @@ function love.draw()
 end
 
 function love.update(dt)
+    for i,obst in ipairs(obstacles) do
+        if checkCollision(player, obst) then
+            hit = true
+        end
+    end
 --Floor movement logic
     floorStart = floorStart - playerSpeed * dt
 --Obstacle generation Logic

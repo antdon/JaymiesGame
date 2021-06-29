@@ -13,8 +13,11 @@ player.doubleJumping = false
 player.initialJumpSpeed  = 400
 player.jumpSpeed = player.initialJumpSpeed
 player.cancelled = false
+player.width = 50
+player.height = 50
 
 
 function Player:drawPlayer()
-      love.graphics.rectangle("fill", player.x, player.y, PLAYER_SIZE, PLAYER_SIZE)
+      love.graphics.rectangle("fill", player.x, player.y, player.width, player.height)
+      
 end
