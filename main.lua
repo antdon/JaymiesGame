@@ -47,9 +47,8 @@ function love.update(dt)
     print(score)
     floorStart = Map:moveFloor(floorStart, player.speed, dt)
     Obstacle:generateObstacle(obstacles)
-    obstacles = Obstacle:moveObstacle(obstacles, player.speed, dt)
-    if obstacles ~= Obstacle:deleteUsedObstacle(obstacles) then
-        obstacles = Obstacle:deleteUsedObstacle(obstacles)
+    obstacles = Obstacle:moveObstacles(obstacles, player.speed, dt)
+    if Obstacle:deleteUsedObstacle(obstacles) then
         deletedObstCount = deletedObstCount + 1
     end
 --Jump Logic

@@ -39,21 +39,26 @@ function Obstacle:generateObstacle(obstacles)
     end
 end
 
-function Obstacle:moveObstacle(obstacles, speed, dt)
+function Obstacle:moveObstacles(obstacles, speed, dt)
     for i,obst in ipairs(obstacles) do
-        obst.x = obst.x - player.speed * dt
+        obst:moveObstacle(speed, dt)
     end
     return obstacles
 end
 
+function Obstacle:moveObstacle(speed, dt)
+    self.x = self.x - speed * dt
+end
+
 function Obstacle:deleteUsedObstacle(obstacles)
+    removed = false
     for i,obst in ipairs(obstacles) do
         if obst.x < -WINDOW_SAFETY_LENGTH then 
             table.remove(obstacles, i)
+            removed = true
         end
     end
-    return obstacles
-
+    return removed
 end
 
 function Obstacle:checkPassed(playerX)
