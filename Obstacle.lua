@@ -18,9 +18,6 @@ function Obstacle:drawObstacle()
     love.graphics.rectangle("fill", self.x, self.y, self.height, self.width)
 end
 
-function Obstacle:moveObstacle()
-    self.x = self.x - 10
-end
 
 function Obstacle:generateObstacle(obstacles)
     if math.random(200) == 1 then
@@ -57,4 +54,12 @@ function Obstacle:deleteUsedObstacle(obstacles)
     end
     return obstacles
 
+end
+
+function Obstacle:checkPassed(playerX)
+    if playerX > self.x then
+        return true
+    else
+        return false
+    end
 end

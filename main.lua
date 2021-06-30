@@ -1,4 +1,5 @@
 require "Map"
+require "Score"
 require "Player"
 require "util"
 require "Obstacle"
@@ -6,6 +7,8 @@ require "collisions"
 
 local floorStart = 0
 local jumpCount = 0
+local deletedObstCount = 0
+local score = 0
 local gravity = 666
 local obstacle = false
 local obstacles = {}
@@ -40,10 +43,15 @@ function love.update(dt)
             hit = true
         end
     end
+    score = Score:updateScore(obstacles, deletedObstCount, player.x)
+    print(score)
     floorStart = Map:moveFloor(floorStart, player.speed, dt)
     Obstacle:generateObstacle(obstacles)
     obstacles = Obstacle:moveObstacle(obstacles, player.speed, dt)
-    obstacles = Obstacle:deleteUsedObstacle(obstacles)
+    if obstacles ~= Obstacle:deleteUsedObstacle(obstacles) then
+        obstacles = Obstacle:deleteUsedObstacle(obstacles)
+        deletedObstCount = deletedObstCount + 1
+    end
 --Jump Logic
     if player.jumping then
         if love.keyboard.isDown(controls.up) and jumpCount == 2 then
