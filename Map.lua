@@ -19,4 +19,8 @@ function Map:drawFloor(floorStart)
     end
 end
 
+function Map:moveFloor(floorPosition, Speed, dt)
+    return floorPosition - Speed * dt
+end
+
 
