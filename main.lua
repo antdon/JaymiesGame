@@ -17,7 +17,14 @@ local hit = false
 controls.up = "up"
 controls.down = "down"
 
+function love.load()
+    font = love.graphics.newFont("VertigoFLF-Bold.ttf", 200)
+    love.graphics.setFont(font)
+end
+
 function love.draw()
+    love.graphics.setColor(1,1,1)
+    love.graphics.print(score, 1/26 * WINDOW_WIDTH, 1/26 * WINDOW_HEIGHT)
     love.graphics.setColor(1,1,1)
     Map:drawFloor(floorStart)
     love.graphics.setColor(0,0.5,0.5)
