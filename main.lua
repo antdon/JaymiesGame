@@ -14,8 +14,10 @@ local obstacle = false
 local obstacles = {}
 local controls = {}
 local hit = false
+local pause = false
 controls.up = "up"
 controls.down = "down"
+controls.pause = "p"
 
 function love.load()
     font = love.graphics.newFont("VertigoFLF-Bold.ttf", 200)
@@ -34,7 +36,6 @@ function love.draw()
         obst:drawObstacle()
     end
     for i = 10, 1, 1 do
-        love.graphics.translate(1, 0)
         Player:drawPlayer()
     end
     for i,v in ipairs(obstacles) do
@@ -47,14 +48,16 @@ end
 function love.update(dt)
     for i,obst in ipairs(obstacles) do
         if checkCollision(player, obst) then
-            hit = true
+            pause = true
         end
     end
     score = Score:updateScore(obstacles, deletedObstCount, player.x)
     print(score)
-    floorStart = Map:moveFloor(floorStart, player.speed, dt)
-    Obstacle:generateObstacle(obstacles)
-    obstacles = Obstacle:moveObstacles(obstacles, player.speed, dt)
+    if not pause then
+        floorStart = Map:moveFloor(floorStart, player.speed, dt)
+        Obstacle:generateObstacle(obstacles)
+        obstacles = Obstacle:moveObstacles(obstacles, player.speed, dt)
+    end
     if Obstacle:deleteUsedObstacle(obstacles) then
         deletedObstCount = deletedObstCount + 1
     end
@@ -68,23 +71,25 @@ function love.update(dt)
         if player.cancelled then
             gravity = 10000
         end
-        if player.y > player.jumpHeight then
-            player.y = player.y - player.jumpSpeed * dt
-            player.jumpSpeed = player.jumpSpeed - gravity * dt
-            if player.y >= FLOOR_HEIGHT - FLOOR_PIECE_SIZE then 
-                player.y = FLOOR_HEIGHT - FLOOR_PIECE_SIZE
-                player.jumping = false
-                falling = false
-                player.jumpHeight = FLOOR_HEIGHT - FLOOR_PIECE_SIZE  
-                jumpCount = 0
-                maxHeightReached = false
-                player.cancelled = false
-            end
+        if not pause then
+            if player.y > player.jumpHeight then
+                player.y = player.y - player.jumpSpeed * dt
+                player.jumpSpeed = player.jumpSpeed - gravity * dt
+                if player.y >= FLOOR_HEIGHT - FLOOR_PIECE_SIZE then 
+                    player.y = FLOOR_HEIGHT - FLOOR_PIECE_SIZE
+                    player.jumping = false
+                    falling = false
+                    player.jumpHeight = FLOOR_HEIGHT - FLOOR_PIECE_SIZE  
+                    jumpCount = 0
+                    maxHeightReached = false
+                    player.cancelled = false
+                end
 
-        else
-            maxHeightReached = true
-            player.jumpSpeed = 0
-            player.y = player.y + 1
+            else
+                maxHeightReached = true
+                player.jumpSpeed = 0
+                player.y = player.y + 1
+            end
         end
     else
         player.cancelled = false
@@ -93,7 +98,7 @@ function love.update(dt)
 end
 
 function love.keypressed(key)
-    if key == controls.up then 
+    if key == controls.up and not pause then 
         if jumpCount == 0 then
             jumpCount = jumpCount + 1
             player.jumpHeight = player.jumpHeight - player.jump
@@ -106,8 +111,10 @@ function love.keypressed(key)
         end
 
         player.jumping = true
-    elseif key == controls.down then
+    elseif key == controls.down and not pause then
         player.cancelled = true 
+    elseif key == controls.pause then
+        pause = not pause
     end
 
 end
