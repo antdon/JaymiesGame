@@ -51,6 +51,7 @@ function love.update(dt)
             pause = true
         end
     end
+    player.speed = player.speed + 5 * dt
     score = Score:updateScore(obstacles, deletedObstCount, player.x)
     print(score)
     if not pause then
