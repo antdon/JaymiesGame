@@ -15,9 +15,14 @@ local obstacles = {}
 local controls = {}
 local hit = false
 local pause = false
+local chance = 200
+local start = math.floor(love.timer.getTime())
+local tick = math.floor(love.timer.getTime())
+local tock = math.floor(love.timer.getTime()) + 30
 controls.up = "up"
 controls.down = "down"
 controls.pause = "p"
+
 
 function love.load()
     font = love.graphics.newFont("VertigoFLF-Bold.ttf", 200)
@@ -46,6 +51,14 @@ function love.draw()
 end
 
 function love.update(dt)
+    if not pause then
+        tick = math.floor(love.timer.getTime())
+        if math.floor((love.timer.getTime()) - start)%10 == 0 and chance > 1 and tick == tock then
+            chance = chance - 20 
+            tock = tock + 30
+        end
+    end
+    print(chance)
     for i,obst in ipairs(obstacles) do
         if checkCollision(player, obst) then
             pause = true
@@ -53,10 +66,9 @@ function love.update(dt)
     end
     player.speed = player.speed + 5 * dt
     score = Score:updateScore(obstacles, deletedObstCount, player.x)
-    print(score)
     if not pause then
         floorStart = Map:moveFloor(floorStart, player.speed, dt)
-        Obstacle:generateObstacle(obstacles)
+        Obstacle:generateObstacle(obstacles, chance)
         obstacles = Obstacle:moveObstacles(obstacles, player.speed, dt)
     end
     if Obstacle:deleteUsedObstacle(obstacles) then

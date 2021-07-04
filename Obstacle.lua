@@ -19,8 +19,8 @@ function Obstacle:drawObstacle()
 end
 
 
-function Obstacle:generateObstacle(obstacles)
-    if math.random(200) == 1 then
+function Obstacle:generateObstacle(obstacles, chance)
+    if math.random(chance) == 1 then
         --obstaclable represents whether the necessary condidtions for creating a new obstacle are met
         local obstaclable = true
         for i,obst in ipairs(obstacles) do
