@@ -12,4 +12,8 @@ hold up once in air - glide
 down while in air - fast drop
 p - pause
 
-## GamePlay
+## Game Play Screenshots
+<table><tr>
+<td> <img src="https://github.com/antdon/JaymiesGame/blob/main/jg1.png" alt="Drawing" /> </td
+<td> <img src="https://github.com/antdon/JaymiesGame/blob/main/jg2.png" alt="Drawing" /> </td
+</tr></table>
