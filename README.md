@@ -7,9 +7,13 @@ Prior to publication the game can be run by cloning the source code and running 
 
 ## Controls
 up - jump
+
 up once in air - double jump
+
 hold up once in air - glide
+
 down while in air - fast drop
+
 p - pause
 
 ## Game Play Screenshots
