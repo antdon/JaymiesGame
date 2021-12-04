@@ -5,30 +5,52 @@ require "util"
 require "Obstacle"
 require "collisions"
 
+-- Represents the position of the first floor tile
 local floorStart = 0
+
+-- Number of times the player has accelerated upward since last grounding
 local jumpCount = 0
+
+-- Number of obstacles that have been cleared and are no longer being drawn
 local deletedObstCount = 0
+
+-- The number of obstacles passed by the player
 local score = 0
+
+-- speed at which player accelerates downwards when jumping
 local gravity = 666
-local obstacle = false
+
+-- List of Obstacles  
 local obstacles = {}
+
+-- dictionary mapping controls 
 local controls = {}
-local hit = false
+
+-- boolean representing whether the game is in paued state
 local pause = false
+
+-- a variable representing how frequently obstacles are generated 
 local chance = 200
+
+-- variables used for time functionality for generating obstacles at randomized 
+-- intervals
 local start = math.floor(love.timer.getTime())
 local tick = math.floor(love.timer.getTime())
 local tock = math.floor(love.timer.getTime()) + 30
+
+-- populate controls dictionary
 controls.up = "up"
 controls.down = "down"
 controls.pause = "p"
 
 
+-- love function that is called when game begins
 function love.load()
     font = love.graphics.newFont("VertigoFLF-Bold.ttf", 200)
     love.graphics.setFont(font)
 end
 
+-- Love function that is called every frame
 function love.draw()
     love.graphics.setColor(1,1,1)
     love.graphics.print(score, 1/26 * WINDOW_WIDTH, 1/26 * WINDOW_HEIGHT)
@@ -50,6 +72,7 @@ function love.draw()
     end
 end
 
+-- love function that is called between every frame
 function love.update(dt)
     if not pause then
         tick = math.floor(love.timer.getTime())
@@ -58,7 +81,6 @@ function love.update(dt)
             tock = tock + 30
         end
     end
-    print(chance)
     for i,obst in ipairs(obstacles) do
         if checkCollision(player, obst) then
             pause = true
